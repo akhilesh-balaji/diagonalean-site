@@ -1,10 +1,12 @@
 import Graph from "./components/Graph";
 import Navbar from "./components/Navbar";
+import { useTheme } from "./hooks/useTheme";
 
 export default function App() {
+  const { dark, toggle } = useTheme();
   return (
     <>
-      <Navbar />
+      <Navbar dark={dark} onToggle={toggle} />
       <div className="flex flex-col-reverse md:flex-row w-full min-h-screen bg-base-100">
         {/* Text */}
         <div className="flex-1 flex items-center justify-center px-6 py-16 md:py-0">
@@ -42,7 +44,7 @@ export default function App() {
 
         {/* Graph */}
         <div className="relative w-full h-[50vh] md:w-1/2 md:h-screen">
-          <Graph dark={true} />
+          <Graph dark={dark} />
         </div>
       </div>
     </>
