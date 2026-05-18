@@ -25,11 +25,11 @@ export default function App() {
               </span>
               The project will deliver a{" "}
               <span className="text-accent">reusable library</span> of certified{" "}
-              <span className="text-(--color-random)">Turing and many-one reductions</span>,{" "}
-              <span className="text-(--color-random)">diagonalisation arguments</span>, and{" "}
-              <span className="text-(--color-random)">undecidability transfer theorems</span>,
+              <span className="text-tertiary">Turing and many-one reductions</span>,{" "}
+              <span className="text-tertiary">diagonalisation arguments</span>, and{" "}
+              <span className="text-tertiary">undecidability transfer theorems</span>,
               together with a{" "}
-              <span className="text-(--color-random)">proof-search tactic</span> that automates
+              <span className="text-tertiary">proof-search tactic</span> that automates
               the traversal of a registered reduction graph.
               <br /><br />
               The long-term aim is to make formal undecidability proofs in Lean as{" "}
