@@ -1,3 +1,4 @@
+import { useEffect, useState, useRef } from "react";
 import { GraphCanvas, darkTheme, lightTheme } from "reagraph";
 
 const solarizedDarkTheme = {
@@ -83,25 +84,102 @@ const solarizedLightTheme = {
 };
 
 const nodes = [
-  { id: "1", label: "Node 1" },
-  { id: "2", label: "Node 2" },
-  { id: "3", label: "Node 3" },
+  { id: "AP", label: "Acceptance Problem" },
+  { id: "MPCP", label: "Modified Post's Correspondence Problem" },
+  { id: "PCP", label: "Post's Correspondence Problem" },
+  { id: "RT", label: "Rice's Theorem" },
+  { id: "ACFG", label: "Ambiguity of CFGs" },
+  { id: "CFLC", label: "CFL Containment" },
+  { id: "EICFL", label: "Empty Intersection of CFLs" },
 ];
 
 const edges = [
-  { id: "1-2", source: "1", target: "2" },
-  { id: "2-3", source: "2", target: "3" },
+  { id: "AP-RT", source: "AP", target: "RT" },
+  { id: "AP-MPCP", source: "AP", target: "MPCP" },
+  { id: "MPCP-PCP", source: "MPCP", target: "PCP" },
+  { id: "PCP-ACFG", source: "PCP", target: "ACFG" },
+  { id: "PCP-CFLC", source: "PCP", target: "CFLC" },
+  { id: "PCP-EICFL", source: "PCP", target: "EICFL" },
 ];
 
 export default function Graph({ dark = true }: { dark?: boolean }) {
+  const [activeNode, setActiveNode] = useState<string | null>(null);
+  const [displayLabels, setDisplayLabels] = useState<Record<string, string>>(
+    Object.fromEntries(nodes.map((n) => [n.id, n.id]))
+  );
+  const animationsRef = useRef<Record<string, ReturnType<typeof setInterval>>>({});
+
+  const animateTo = (nodeId: string, from: string, to: string) => {
+    if (animationsRef.current[nodeId]) clearInterval(animationsRef.current[nodeId]);
+
+    let step = 0;
+    const maxLen = Math.max(from.length, to.length);
+    const interval = setInterval(() => {
+      step++;
+      const progress = step / maxLen;
+      const currentLen = Math.round(progress * to.length);
+      setDisplayLabels((prev) => ({
+        ...prev,
+        [nodeId]: to.slice(0, currentLen) || nodeId[0],
+      }));
+      if (step >= maxLen) clearInterval(animationsRef.current[nodeId]);
+    }, 2);
+
+    animationsRef.current[nodeId] = interval;
+  };
+
+  const handlePointerOver = (node: any) => {
+    setActiveNode(node.id);
+    const fullLabel = nodes.find((n) => n.id === node.id)?.label ?? node.id;
+    animateTo(node.id, node.id, fullLabel);
+  };
+
+  const handlePointerOut = (node: any) => {
+    setActiveNode(null);
+    const fullLabel = nodes.find((n) => n.id === node.id)?.label ?? node.id;
+    animateTo(node.id, fullLabel, node.id);
+  };
+
+  const nodesWithLabel = nodes.map((n) => ({
+    ...n,
+    label: displayLabels[n.id] ?? n.id,
+  }));
+
   return (
     <div className="w-full h-screen">
       <GraphCanvas
-        nodes={nodes}
+        nodes={nodesWithLabel}
         edges={edges}
         theme={dark ? solarizedDarkTheme : solarizedLightTheme}
         labelFontUrl="/fonts/IosevkaCharonMono-Regular.ttf"
+        onNodePointerOver={handlePointerOver}
+        onNodePointerOut={handlePointerOut}
       />
     </div>
   );
 }
+
+// without animations
+// export default function Graph({ dark = true }: { dark?: boolean }) {
+//   const [activeNode, setActiveNode] = useState<string | null>(null);
+//
+//
+//   const nodesWithLabel = nodes.map((n) => ({
+//     ...n,
+//     label: activeNode === n.id ? n.label : n.id,
+//   }));
+//
+//   return (
+//     <div className="w-full h-screen">
+//       <GraphCanvas
+//         nodes={nodesWithLabel}
+//         edges={edges}
+//         theme={dark ? solarizedDarkTheme : solarizedLightTheme}
+//         labelFontUrl="/fonts/IosevkaCharonMono-Regular.ttf"
+//         onNodePointerOver={(node) => setActiveNode(node.id)}
+//         onNodePointerOut={() => setActiveNode(null)}
+//       />
+//     </div>
+//   );
+// }
+

@@ -23,13 +23,16 @@
   --color-base-content: #839496;
 
   --color-primary: #268bd2;
-  --color-primary-content: #fdf6e3;
+  --color-primary-content: #002b36;
 
   --color-secondary: #2aa198;
-  --color-secondary-content: #fdf6e3;
+  --color-secondary-content: #002b36;
 
   --color-accent: #b58900;
   --color-accent-content: #002b36;
+
+  --color-tertiary: #d33682;
+  --color-tertiary-content: #002b36;
 
   --color-neutral: #073642;
   --color-neutral-content: #93a1a1;
@@ -58,6 +61,9 @@
 
   --color-accent: #b58900;
   --color-accent-content: #fdf6e3;
+
+  --color-tertiary: #d33682;
+  --color-tertiary-content: #fdf6e3;
 
   --color-neutral: #eee8d5;
   --color-neutral-content: #586e75;

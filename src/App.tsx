@@ -18,20 +18,19 @@ export default function App() {
               <span className="opacity-40 text-base-content">⊢</span>{" "}
               <span className="text-primary">Diagona</span>Lean
             </h1>
-            <p className="text-base-content text-lg leading-relaxed text-justify font-thin">
+            <p className="text-base-content text-xl leading-relaxed text-justify font-thin">
               <span className="text-xl font-normal">
-                DiagonaLean is a foundational software research project to develop the first
-                fully compositional, tactic-driven toolkit for mechanising
+                DiagonaLean is a <span className="text-accent">foundational software research project</span> to develop the first
+                fully <span className="text-accent">compositional</span>, <span className="text-accent">tactic-driven toolkit</span> for mechanising
                 computability-theoretic reasoning in Lean 4. <br /><br />
               </span>
 
-              The project will deliver a reusable library of certified Turing and many-one reductions,
-              diagonalisation arguments, and undecidability transfer theorems, together
-              with a proof-search tactic that automates the traversal of a registered
+              The project will deliver a <span className="text-accent">reusable library</span> of certified <span className="text-tertiary">Turing and many-one reductions</span>, <span className="text-tertiary">diagonalisation arguments</span>, and <span className="text-tertiary">undecidability transfer theorems</span>, together
+              with a <span className="text-tertiary">proof-search tactic</span> that automates the traversal of a registered
               reduction graph.<br /><br />
 
               The long-term aim is to make formal undecidability proofs
-              in Lean as modular and reusable as existing algebraic or topological
+              in Lean as <span className="text-accent">modular and reusable</span> as existing algebraic or topological
               reasoning libraries.<br /><br />
             </p>
           </div>

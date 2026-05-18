@@ -12,7 +12,7 @@ function NavLink({ label, href, external }: { label: string; href: string; exter
       href={href}
       target={external ? "_blank" : undefined}
       rel={external ? "noopener noreferrer" : undefined}
-      className="text-lg text-base-content/70 px-2 py-0.5 rounded-sm transition-all duration-150 hover:text-primary hover:italic hover:bg-base-300/50"
+      className="text-lg text-base-content/70 px-2 py-0.5 rounded-sm transition-all duration-150 hover:text-tertiary hover:italic hover:bg-base-300/50"
     >
       {label}
     </a >
@@ -22,6 +22,9 @@ function NavLink({ label, href, external }: { label: string; href: string; exter
 export default function Navbar() {
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-base-200/80 backdrop-blur-md border-0 border-base-300 rounded-lg px-6 py-2 flex items-center gap-5">
+      <a href="#" className="flex items-center gap-2 mr-0">
+        <img src="/logo-dark.png" alt="DiagonaLean logo" className="h-6 w-auto" />
+      </a>
       {links.map((link) => (
         <NavLink key={link.label} label={link.label} href={link.href} external={link.external} />
       ))}
