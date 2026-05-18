@@ -43,7 +43,7 @@ export default function App() {
         </div>
 
         {/* Graph */}
-        <div className="relative w-full h-[50vh] md:w-1/2 md:h-screen">
+        <div className="relative w-full h-[50vh] md:w-1/2 md:h-screen my-20 md:my-0">
           <Graph dark={dark} />
         </div>
       </div>
