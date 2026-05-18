@@ -103,7 +103,8 @@ const edges = [
 ];
 
 export default function Graph({ dark = true }: { dark?: boolean }) {
-  const [_, setActiveNode] = useState<string | null>(null);
+  const [activeNode, setActiveNode] = useState<string | null>(null);
+  const [isHoveringNode, setIsHoveringNode] = useState(false);
   const [displayLabels, setDisplayLabels] = useState<Record<string, string>>(
     Object.fromEntries(nodes.map((n) => [n.id, n.id]))
   );
@@ -111,7 +112,6 @@ export default function Graph({ dark = true }: { dark?: boolean }) {
 
   const animateTo = (nodeId: string, from: string, to: string) => {
     if (animationsRef.current[nodeId]) clearInterval(animationsRef.current[nodeId]);
-
     let step = 0;
     const maxLen = Math.max(from.length, to.length);
     const interval = setInterval(() => {
@@ -124,20 +124,42 @@ export default function Graph({ dark = true }: { dark?: boolean }) {
       }));
       if (step >= maxLen) clearInterval(animationsRef.current[nodeId]);
     }, 2);
-
     animationsRef.current[nodeId] = interval;
   };
 
-  const handlePointerOver = (node: any) => {
-    setActiveNode(node.id);
+  const expandNode = (node: any) => {
     const fullLabel = nodes.find((n) => n.id === node.id)?.label ?? node.id;
-    animateTo(node.id, node.id, fullLabel);
+    animateTo(node.id, displayLabels[node.id] ?? node.id, fullLabel);
+    setActiveNode(node.id);
+  };
+
+  const collapseNode = (node: any) => {
+    const fullLabel = nodes.find((n) => n.id === node.id)?.label ?? node.id;
+    animateTo(node.id, fullLabel, node.id);
+    setActiveNode(null);
+  };
+
+  const handlePointerOver = (node: any) => {
+    setIsHoveringNode(true);
+    expandNode(node);
   };
 
   const handlePointerOut = (node: any) => {
-    setActiveNode(null);
-    const fullLabel = nodes.find((n) => n.id === node.id)?.label ?? node.id;
-    animateTo(node.id, fullLabel, node.id);
+    setIsHoveringNode(false);
+    collapseNode(node);
+  };
+
+  // Touch: tap to expand, tap again to collapse
+  const handleNodeClick = (node: any) => {
+    if (activeNode === node.id) {
+      collapseNode(node);
+    } else {
+      if (activeNode) {
+        const prev = nodes.find((n) => n.id === activeNode);
+        if (prev) collapseNode(prev);
+      }
+      expandNode(node);
+    }
   };
 
   const nodesWithLabel = nodes.map((n) => ({
@@ -146,7 +168,10 @@ export default function Graph({ dark = true }: { dark?: boolean }) {
   }));
 
   return (
-    <div className="w-full h-screen">
+    <div
+      className="w-full h-screen"
+      style={{ cursor: isHoveringNode ? "pointer" : "default" }}
+    >
       <GraphCanvas
         nodes={nodesWithLabel}
         edges={edges}
@@ -154,6 +179,7 @@ export default function Graph({ dark = true }: { dark?: boolean }) {
         labelFontUrl="/fonts/IosevkaCharonMono-Regular.ttf"
         onNodePointerOver={handlePointerOver}
         onNodePointerOut={handlePointerOut}
+        onNodeClick={handleNodeClick}
       />
     </div>
   );
