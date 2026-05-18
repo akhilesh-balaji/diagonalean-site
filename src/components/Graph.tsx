@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { GraphCanvas, darkTheme, lightTheme } from "reagraph";
 
 const solarizedDarkTheme = {
@@ -103,7 +103,7 @@ const edges = [
 ];
 
 export default function Graph({ dark = true }: { dark?: boolean }) {
-  const [activeNode, setActiveNode] = useState<string | null>(null);
+  const [_, setActiveNode] = useState<string | null>(null);
   const [displayLabels, setDisplayLabels] = useState<Record<string, string>>(
     Object.fromEntries(nodes.map((n) => [n.id, n.id]))
   );
