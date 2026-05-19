@@ -15,18 +15,18 @@ export default function App() {
               <span className="opacity-40 text-base-content">⊢</span>{" "}
               <span className="text-primary">Diagona</span>Lean
             </h1>
-            <p className="text-base-content text-sm sm:text-base xl:text-xl leading-relaxed text-justify font-thin">
+            <p className="text-base-content text-sm sm:text-base xl:text-xl leading-relaxed text-justify">
               <span className="font-normal">
                 DiagonaLean is a{" "}
-                <span className="text-accent">foundational software research project</span>{" "}
+                <span className="text-secondary">foundational software research project</span>{" "}
                 to develop the first fully{" "}
-                <span className="text-accent">compositional</span>,{" "}
-                <span className="text-accent">tactic-driven toolkit</span> for mechanising
+                <span className="text-secondary">compositional</span>,{" "}
+                <span className="text-secondary">tactic-driven toolkit</span> for mechanising
                 computability-theoretic reasoning in Lean 4.{" "}
                 <br /><br />
               </span>
               The project will deliver a{" "}
-              <span className="text-accent">reusable library</span> of certified{" "}
+              <span className="text-secondary">reusable library</span> of certified{" "}
               <span className="text-tertiary">Turing and many-one reductions</span>,{" "}
               <span className="text-tertiary">diagonalisation arguments</span>, and{" "}
               <span className="text-tertiary">undecidability transfer theorems</span>,
@@ -35,7 +35,7 @@ export default function App() {
               the traversal of a registered reduction graph.
               <br /><br />
               The long-term aim is to make formal undecidability proofs in Lean as{" "}
-              <span className="text-accent">modular and reusable</span> as existing algebraic
+              <span className="text-secondary">modular and reusable</span> as existing algebraic
               or topological reasoning libraries.
               <br /><br />
             </p>

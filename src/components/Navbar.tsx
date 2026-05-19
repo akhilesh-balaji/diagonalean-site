@@ -12,7 +12,7 @@ function NavLink({ label, href, external }: { label: string; href: string; exter
       href={href}
       target={external ? "_blank" : undefined}
       rel={external ? "noopener noreferrer" : undefined}
-      className={`text-lg text-base-content px-1.5 md:px-2 py-0.5 rounded-sm transition-all duration-150 hover:text-tertiary hover:italic hover:bg-base-300/50 whitespace-nowrap ${label === "Home" ? "hidden sm:inline" : ""}`}
+      className={`text-lg text-base-content px-1.5 md:px-2 py-0.5 rounded-sm transition-all duration-150 hover:text-tertiary hover:italic hover:bg-base-300/15 whitespace-nowrap ${label === "Home" ? "hidden sm:inline" : ""}`}
     >
       {label}
     </a >
