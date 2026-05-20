@@ -122,7 +122,8 @@ export default function Roadmap() {
           prose-p:text-base-content prose-p:mb:3 prose-p:text-lg
           prose-a:text-primary prose-a:no-underline hover:prose-a:underline
           prose-code:text-secondary prose-code:bg-base-300 prose-code:px-1 prose-code:rounded
-          prose-pre:!bg-transparent prose-pre:!p-2 prose-pre:!m-0 prose-pre:!rounded-lg  prose-pre:text-lg prose-pre:border-base-300 prose-pre:border-2
+          prose-pre:bg-transparent! prose-pre:p-2! prose-pre:m-0! prose-pre:rounded-lg!
+          prose-pre:text-lg prose-pre:border-base-300 prose-pre:border-2
           prose-strong:text-base-content
           prose-li:text-base-content prose-li:text-lg
           prose-hr:border-base-300 prose-hr:my-6"

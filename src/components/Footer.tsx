@@ -1,7 +1,3 @@
-// export default function Footer() {
-//       return (<div className="flex items-center gap-0 md:gap-2 py-2 content-center backdrop-blur-lg  bg-base-200/80 px-4 rounded-xl sm:rounded-xl fixed top-2 border-2  border-base-300/80 z-50 left-1/2 -translate-x-1/2 min-w-max"></div>);
-// }
-
 interface FooterLink {
   label: string;
   href: string;
@@ -62,7 +58,7 @@ function FooterLinkItem({ label, href }: FooterLink) {
 
 function FooterColumn({ heading, links }: FooterColumn) {
   return (
-    <div className="flex flex-col gap-3 min-w-[120px]">
+    <div className="flex flex-col gap-3 min-w-30">
       <p className="text-sm font-semibold text-secondary uppercase">
         {heading}
       </p>
@@ -86,7 +82,7 @@ export default function Footer() {
                 className="h-10 w-auto"
               />
             </a>
-            <p className="text-sm text-base-content max-w-[180px] leading-relaxed">
+            <p className="text-sm text-base-content max-w-45 leading-relaxed">
               A compositional toolkit for mechanised undecidability in Lean 4.
             </p>
           </div>
