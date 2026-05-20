@@ -96,7 +96,10 @@ function Home({ dark }: { dark: boolean }) {
           </p>
         </div>
       </div>
-      <div className="relative w-full h-[50vh] md:w-1/2 md:h-screen mt-20 md:my-0">
+      <div className="relative w-full h-[50vh] md:w-1/2 md:h-screen mt-20 md:my-0"
+        role="img"
+        aria-label="Reduction graph showing undecidability relationships between problems"
+      >
         <Graph dark={dark} />
       </div>
     </div>

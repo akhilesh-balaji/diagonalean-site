@@ -26,37 +26,25 @@ function NavLink({ label, href, external }: { label: string; href: string; exter
   );
 }
 
-// export default function Navbar() {
-//   return (
-//     <div className="flex items-center gap-0 md:gap-2 py-2 content-center backdrop-blur-lg  bg-base-200/80 px-4 rounded-xl sm:rounded-xl fixed top-2 border-2  border-base-300/80 z-50 left-1/2 -translate-x-1/2">
-//
-//       <a href="#" className="flex items-center shrink-0 mr-1 md:mr-2">
-//         <img src="/logo-dark.png" alt="DiagonaLean logo" className="h-5 md:h-6 w-auto" />
-//       </a>
-//       {links.map((link) => (
-//         <NavLink key={link.label} label={link.label} href={link.href} external={link.external} />
-//       ))}
-//     </div>
-//   );
-// }
 interface NavbarProps {
   dark: boolean;
   onToggle: () => void;
 }
+
 export default function Navbar({ dark, onToggle }: NavbarProps) {
   return (
     <>
       <button
         onClick={onToggle}
         aria-label="Toggle theme"
-        className="fixed bottom-2 sm:top-2 sm:bottom-auto right-2 z-50 flex items-center justify-center backdrop-blur-lg bg-base-200/80 border-2 border-base-300/80 rounded-lg px-2.5 py-2 text-lg text-warning hover:text-tertiary hover:font-bold hover:bg-base-300/50 transition-all duration-150 cursor-pointer font-bold"
+        className={`fixed bottom-2 sm:top-2 sm:bottom-auto right-2 z-50 flex items-center justify-center backdrop-blur-lg bg-base-200/80 border-2 border-base-300/80 rounded-lg px-2.5 py-2 text-lg hover:font-bold hover:text-tertiary transition-all duration-150 cursor-pointer font-bold ${dark ? "text-secondary" : "text-primary"}`}
       >
         {dark ? "L" : "D"}
       </button>
       <div className="flex items-center gap-0 md:gap-2 py-2 content-center backdrop-blur-lg  bg-base-200/80 px-4 rounded-xl sm:rounded-xl fixed top-2 border-2  border-base-300/80 z-50 left-1/2 -translate-x-1/2 min-w-max">
 
         <Link to="/" className="flex items-center shrink-0 mr-1 md:mr-2">
-          <img src="/logo-dark.png" alt="DiagonaLean logo" className="h-5 md:h-6 w-auto" />
+          <img src="/logo-dark.png" alt="The DiagonaLean logo: A D in angle brackets joined by a horizontal line to an L" className="h-5 md:h-6 w-auto" />
         </Link>
         {links.map((link) => (
           <NavLink key={link.label} label={link.label} href={link.href} external={link.external} />

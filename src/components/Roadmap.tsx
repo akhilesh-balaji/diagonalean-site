@@ -94,7 +94,7 @@ export default function Roadmap() {
   }, []);
 
   return (
-    <section id="roadmap" className="w-full px-6 py-10 max-w-4xl mx-auto">
+    <section id="roadmap" className="w-full px-6 py-10 max-w-5xl mx-auto">
       <h1 className="text-4xl sm:text-5xl font-bold text-secondary mb-2">
         Roadmap for <span className="text-primary">Diagona</span>Lean
       </h1>
@@ -118,14 +118,14 @@ export default function Roadmap() {
       {!loading && !error && (
         <div
           className="prose prose-md max-w-none
-          prose-headings:text-base-content
-          prose-p:text-base-content
+          prose-headings:text-base-content prose-headings:mb-2
+          prose-p:text-base-content prose-p:mb:3 prose-p:text-lg
           prose-a:text-primary prose-a:no-underline hover:prose-a:underline
           prose-code:text-secondary prose-code:bg-base-300 prose-code:px-1 prose-code:rounded
           prose-pre:!bg-transparent prose-pre:!p-2 prose-pre:!m-0 prose-pre:!rounded-lg  prose-pre:text-lg prose-pre:border-base-300 prose-pre:border-2
           prose-strong:text-base-content
-          prose-li:text-base-content
-          prose-hr:border-base-300"
+          prose-li:text-base-content prose-li:text-lg
+          prose-hr:border-base-300 prose-hr:my-6"
           dangerouslySetInnerHTML={{ __html: html }}
         />
       )}

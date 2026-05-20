@@ -82,7 +82,7 @@ export default function Footer() {
             <a href="#">
               <img
                 src="/logo-dark.png"
-                alt="DiagonaLean"
+                alt="The DiagonaLean logo: A D in angle brackets joined by a horizontal line to an L"
                 className="h-10 w-auto"
               />
             </a>
