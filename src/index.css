@@ -73,3 +73,98 @@
   --color-warning: #cb4b16;
   --color-error: #dc322f;
 }
+
+.hljs {
+  color: var(--color-base-content);
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: var(--color-base-300);
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag {
+  color: var(--color-success);
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: var(--color-secondary);
+}
+
+.hljs-number,
+.hljs-literal {
+  color: var(--color-tertiary);
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-name {
+  color: var(--color-primary);
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+  color: var(--color-accent);
+}
+
+.hljs-tag,
+.hljs-attribute {
+  color: var(--color-primary);
+}
+
+.hljs-variable,
+.hljs-template-variable {
+  color: var(--color-warning);
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: var(--color-info);
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: var(--color-tertiary);
+}
+
+.hljs-meta {
+  color: var(--color-success);
+}
+
+.hljs-deletion {
+  color: var(--color-error);
+}
+
+.hljs-addition {
+  color: var(--color-success);
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+
+.prose pre {
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+}
+
+.prose pre code {
+  background: transparent !important;
+  padding: 0 !important;
+  font-size: inherit !important;
+  color: inherit !important;
+}
+
+input[type="checkbox"] {
+  opacity: 0.5 !important;
+}

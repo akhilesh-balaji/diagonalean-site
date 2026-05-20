@@ -1,21 +1,28 @@
+import { Link } from "react-router-dom";
 const links = [
-  { label: "Home", href: "#", external: false },
+  { label: "Home", href: "/#", external: false },
   { label: "About", href: "#about", external: false },
-  { label: "Roadmap", href: "#roadmap", external: false },
+  { label: "Roadmap", href: "/roadmap", external: false },
   // { label: "Team", href: "#team", external: false },
-  { label: "GitHub", href: "https://github.com", external: true },
+  { label: "GitHub", href: "https://github.com/aalok-thakkar/undecidability", external: true },
 ];
 
+
 function NavLink({ label, href, external }: { label: string; href: string; external: boolean }) {
+  const className = `text-lg text-base-content px-1.5 md:px-2 py-0.5 rounded-lg transition-all duration-150 hover:text-tertiary hover:italic hover:bg-base-300/8 whitespace-nowrap ${label === "Home" ? "hidden sm:inline" : ""}`;
+
+  if (external || href.startsWith("http")) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+        {label}
+      </a>
+    );
+  }
+
   return (
-    <a
-      href={href}
-      target={external ? "_blank" : undefined}
-      rel={external ? "noopener noreferrer" : undefined}
-      className={`text-lg text-base-content px-1.5 md:px-2 py-0.5 rounded-sm transition-all duration-150 hover:text-tertiary hover:italic hover:bg-base-300/15 whitespace-nowrap ${label === "Home" ? "hidden sm:inline" : ""}`}
-    >
+    <Link to={href} className={className}>
       {label}
-    </a >
+    </Link>
   );
 }
 
@@ -48,9 +55,9 @@ export default function Navbar({ dark, onToggle }: NavbarProps) {
       </button>
       <div className="flex items-center gap-0 md:gap-2 py-2 content-center backdrop-blur-lg  bg-base-200/80 px-4 rounded-xl sm:rounded-xl fixed top-2 border-2  border-base-300/80 z-50 left-1/2 -translate-x-1/2 min-w-max">
 
-        <a href="#" className="flex items-center shrink-0 mr-1 md:mr-2">
+        <Link to="/" className="flex items-center shrink-0 mr-1 md:mr-2">
           <img src="/logo-dark.png" alt="DiagonaLean logo" className="h-5 md:h-6 w-auto" />
-        </a>
+        </Link>
         {links.map((link) => (
           <NavLink key={link.label} label={link.label} href={link.href} external={link.external} />
         ))}
