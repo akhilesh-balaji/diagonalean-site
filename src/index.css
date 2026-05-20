@@ -142,6 +142,18 @@
   color: var(--color-success);
 }
 
+.hljs-number {
+  color: var(--color-warning);
+}
+
+.hljs-literal {
+  color: var(--color-info);
+}
+
+.hljs-symbol {
+  color: var(--color-tertiary);
+}
+
 .hljs-emphasis {
   font-style: italic;
 }
@@ -163,6 +175,10 @@
   padding: 0 !important;
   font-size: inherit !important;
   color: inherit !important;
+}
+
+code {
+  border-radius: 6px !important;
 }
 
 input[type="checkbox"] {
