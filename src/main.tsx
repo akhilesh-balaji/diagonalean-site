@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 import hljs from "highlight.js";
+// @ts-expect-error missing types in package
 import leanHljs from "highlightjs-lean";
 
 // hljs.registerLanguage("lean", () => ({
@@ -22,6 +23,7 @@ import leanHljs from "highlightjs-lean";
 //     { className: "symbol", begin: "(:=|=>|<-|->|←|→|⟨|⟩|∀|∃|λ|∧|∨|¬|≤|≥|≠|≡|α|β|γ|::|\\||=)" },
 //   ],
 // }));
+
 
 const baseLean = leanHljs(hljs);
 
