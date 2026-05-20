@@ -75,7 +75,7 @@ function FooterColumn({ heading, links }: FooterColumn) {
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-base-200/50 border-t-2 border-base-300 mt-20">
+    <footer className="w-full bg-base-200/50 mt-20">
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="flex flex-col md:flex-row gap-12">
           <div className="flex flex-col gap-4 shrink-0">
