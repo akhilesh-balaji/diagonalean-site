@@ -12,8 +12,8 @@ const footerColumns: FooterColumn[] = [
   {
     heading: "Project",
     links: [
-      { label: "GitHub", href: "https://github.com/aalok-thakkar/undecidability" },
-      { label: "TODO", href: "https://github.com/aalok-thakkar/undecidability/blob/Main/TODO.md" },
+      { label: "GitHub", href: "https://github.com/DiagonaLean/DiagonaLean" },
+      { label: "TODO", href: "https://github.com/DiagonaLean/DiagonaLean/blob/main/README.md" },
       { label: "Roadmap", href: "/roadmap" },
     ],
   },

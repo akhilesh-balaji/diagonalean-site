@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 const links = [
   { label: "Home", href: "/#", external: false },
-  { label: "About", href: "#about", external: false },
+  { label: "Team", href: "/team", external: false },
   { label: "Roadmap", href: "/roadmap", external: false },
   // { label: "Team", href: "#team", external: false },
-  { label: "GitHub", href: "https://github.com/aalok-thakkar/undecidability", external: true },
+  { label: "GitHub", href: "https://github.com/DiagonaLean/DiagonaLean", external: true },
 ];
 
 

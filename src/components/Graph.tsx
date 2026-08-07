@@ -2,6 +2,10 @@ import { useState, useRef, useEffect } from "react";
 import { GraphCanvas, darkTheme, lightTheme } from "reagraph";
 import type { GraphCanvasRef } from "reagraph";
 
+const REPO_BASE = "https://github.com/DiagonaLean/DiagonaLean/tree/main/DiagonaLean";
+const repoUrl = (id: string) => `${REPO_BASE}/${id}`;
+const reductionsUrl = (sourceId: string) => `${REPO_BASE}/${sourceId}/Reductions`;
+
 const solarizedDarkTheme = {
   ...darkTheme,
   canvas: {
@@ -148,24 +152,27 @@ function bfsLevels(nodes: GraphNode[], edges: GraphEdge[]): GraphNode[][] {
 }
 
 const nodes_ = [
-  { id: "HP", label: "Halting Problem" },
-  { id: "AP", label: "Acceptance Problem" },
-  { id: "RT", label: "Rice's Theorem" },
+  { id: "Halt", label: "Halting Problem" },
+  { id: "UTMHalt", label: "Universal Turing Machine Halting Problem" },
+  // { id: "AP", label: "Acceptance Problem" },
+  // { id: "RT", label: "Rice's Theorem" },
   { id: "MPCP", label: "Modified Post's Correspondence Problem" },
   { id: "PCP", label: "Post's Correspondence Problem" },
-  { id: "ACFG", label: "Ambiguity of CFGs" },
-  { id: "CFLC", label: "CFL Containment" },
-  { id: "EICFL", label: "Empty Intersection of CFLs" },
+  { id: "MatMort", label: "3×3 Matrix Mortality" },
+  { id: "AmbigCFG", label: "Ambiguity of CFGs" },
+  // { id: "CFLC", label: "CFL Containment" },
+  { id: "EmpCFG", label: "Empty Intersection of CFGs" },
 ];
 
 const edges = [
-  { id: "HP-AP", source: "HP", target: "AP" },
-  { id: "AP-RT", source: "AP", target: "RT" },
-  { id: "HP-MPCP", source: "HP", target: "MPCP" },
+  { id: "Halt-UTMHalt", source: "Halt", target: "UTMHalt" },
+  // { id: "AP-RT", source: "AP", target: "RT" },
+  { id: "Halt-MPCP", source: "Halt", target: "MPCP" },
   { id: "MPCP-PCP", source: "MPCP", target: "PCP" },
-  { id: "PCP-ACFG", source: "PCP", target: "ACFG" },
-  { id: "PCP-CFLC", source: "PCP", target: "CFLC" },
-  { id: "PCP-EICFL", source: "PCP", target: "EICFL" },
+  { id: "PCP-MatMort", source: "PCP", target: "MatMort" },
+  { id: "PCP-AmbigCFG", source: "PCP", target: "AmbigCFG" },
+  // { id: "PCP-CFLC", source: "PCP", target: "CFLC" },
+  { id: "PCP-EmpCFG", source: "PCP", target: "EmpCFG" },
 ];
 
 const NODE_DELAY = 300; // ms between each node appearing
@@ -176,46 +183,13 @@ export default function Graph({ dark = true }: { dark?: boolean }) {
   const [visibleLevel, setVisibleLevel] = useState(0);
   const graphRef = useRef<GraphCanvasRef | null>(null);
   // const [visibleCount, setVisibleCount] = useState(0);
-  const [activeNode, setActiveNode] = useState<string | null>(null);
+  const [_activeNode, setActiveNode] = useState<string | null>(null);
   const [isHoveringNode, setIsHoveringNode] = useState(false);
+  const [isHoveringEdge, setIsHoveringEdge] = useState(false);
   const [displayLabels, setDisplayLabels] = useState<Record<string, string>>(
     Object.fromEntries(nodes.map((n) => [n.id, n.id]))
   );
   const animationsRef = useRef<Record<string, ReturnType<typeof setInterval>>>({});
-
-  // Intro: reveal nodes one by one
-  // useEffect(() => {
-  //   if (visibleCount >= nodes.length) return;
-  //   const timeout = setTimeout(() => {
-  //     setVisibleCount((c) => c + 1);
-  //   }, visibleCount === 0 ? 600 : NODE_DELAY);
-  //   return () => clearTimeout(timeout);
-  // }, [visibleCount]);
-
-  // Fit view after all nodes are visible
-  // useEffect(() => {
-  //   if (visibleCount === nodes.length) {
-  //     setTimeout(() => graphRef.current?.fitNodesInView(), 100);
-  //   }
-  // }, [visibleCount]);
-
-  // useEffect(() => {
-  //   if (visibleCount >= nodes.length) return;
-  //   const timeout = setTimeout(() => {
-  //     setVisibleCount((c) => {
-  //       const next = c + 1;
-  //       setTimeout(() => {
-  //         if (next === nodes.length) {
-  //           graphRef.current?.fitNodesInView();
-  //         } else {
-  //           graphRef.current?.centerGraph();
-  //         }
-  //       }, 100);
-  //       return next;
-  //     });
-  //   }, visibleCount === 0 ? 600 : NODE_DELAY);
-  //   return () => clearTimeout(timeout);
-  // }, [visibleCount]);
 
   useEffect(() => {
     if (visibleLevel >= levels.length) return;
@@ -273,17 +247,26 @@ export default function Graph({ dark = true }: { dark?: boolean }) {
     setIsHoveringNode(false);
     collapseNode(node);
   };
+  const handleEdgePointerOver = () => setIsHoveringEdge(true);
+  const handleEdgePointerOut = () => setIsHoveringEdge(false);
 
+  // const handleNodeClick = (node: any) => {
+  //   if (activeNode === node.id) {
+  //     collapseNode(node);
+  //   } else {
+  //     if (activeNode) {
+  //       const prev = nodes.find((n) => n.id === activeNode);
+  //       if (prev) collapseNode(prev);
+  //     }
+  //     expandNode(node);
+  //   }
+  // };
   const handleNodeClick = (node: any) => {
-    if (activeNode === node.id) {
-      collapseNode(node);
-    } else {
-      if (activeNode) {
-        const prev = nodes.find((n) => n.id === activeNode);
-        if (prev) collapseNode(prev);
-      }
-      expandNode(node);
-    }
+    window.open(repoUrl(node.id), "_blank", "noopener,noreferrer");
+  };
+
+  const handleEdgeClick = (edge: any) => {
+    window.open(reductionsUrl(edge.target), "_blank", "noopener,noreferrer");
   };
 
   const visibleNodes = levels.slice(0, visibleLevel).flat().map((n) => ({
@@ -298,7 +281,7 @@ export default function Graph({ dark = true }: { dark?: boolean }) {
   return (
     <div
       className="w-full h-screen"
-      style={{ cursor: isHoveringNode ? "pointer" : "default" }}
+      style={{ cursor: isHoveringNode || isHoveringEdge ? "pointer" : "default" }}
     >
       <GraphCanvas
         nodes={visibleNodes}
@@ -309,6 +292,9 @@ export default function Graph({ dark = true }: { dark?: boolean }) {
         onNodePointerOver={handlePointerOver}
         onNodePointerOut={handlePointerOut}
         onNodeClick={handleNodeClick}
+        onEdgePointerOver={handleEdgePointerOver}
+        onEdgePointerOut={handleEdgePointerOut}
+        onEdgeClick={handleEdgeClick}
         draggable
       />
     </div>

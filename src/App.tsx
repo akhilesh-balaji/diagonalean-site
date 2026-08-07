@@ -59,6 +59,7 @@ import Footer from "./components/Footer";
 import Graph from "./components/Graph";
 import Navbar from "./components/Navbar";
 import Roadmap from "./components/Roadmap";
+import Team from "./components/Team";
 import { useTheme } from "./hooks/useTheme";
 
 function Home({ dark }: { dark: boolean }) {
@@ -114,6 +115,14 @@ function RoadmapPage() {
   );
 }
 
+function TeamPage() {
+  return (
+    <div className="bg-base-100 pt-16">
+      <Team />
+    </div>
+  );
+}
+
 export default function App() {
   const { dark, toggle } = useTheme();
 
@@ -122,6 +131,7 @@ export default function App() {
       <Navbar dark={dark} onToggle={toggle} />
       <Routes>
         <Route path="/" element={<Home dark={dark} />} />
+        <Route path="/team" element={<TeamPage />} />
         <Route path="/roadmap" element={<RoadmapPage />} />
       </Routes>
       <Footer />
