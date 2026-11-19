@@ -3,8 +3,21 @@ import { GraphCanvas, darkTheme, lightTheme } from "reagraph";
 import type { GraphCanvasRef } from "reagraph";
 
 const REPO_BASE = "https://github.com/DiagonaLean/DiagonaLean/tree/main/DiagonaLean";
-const repoUrl = (id: string) => `${REPO_BASE}/${id}`;
-const reductionsUrl = (sourceId: string) => `${REPO_BASE}/${sourceId}/Reductions`;
+
+// Subproblems that live inside DiagonaLean/KAComm/<id> in the repo.
+const KA_CHILD_IDS = [
+  "KATermEq",
+  "KATermEqBool",
+  "LangEq",
+  "LangEqBool",
+  "ModelLe",
+  "ModelLeBool",
+  "TermEq",
+  "TermEqBool",
+];
+const nodePath = (id: string) => (KA_CHILD_IDS.includes(id) ? `KAComm/${id}` : id);
+const repoUrl = (id: string) => `${REPO_BASE}/${nodePath(id)}`;
+const reductionsUrl = (sourceId: string) => `${REPO_BASE}/${nodePath(sourceId)}/Reductions`;
 
 const solarizedDarkTheme = {
   ...darkTheme,
@@ -88,8 +101,18 @@ const solarizedLightTheme = {
   },
 };
 
-interface GraphNode { id: string; label: string; }
-interface GraphEdge { id: string; source: string; target: string; }
+interface GraphNode {
+  id: string;
+  label: string;
+}
+interface GraphEdge {
+  id: string;
+  source: string;
+  target: string;
+  arrowPlacement?: "none" | "mid" | "end";
+  /** false => not clickable, no pointer cursor */
+  link?: boolean;
+}
 
 function bfsOrder(nodes: GraphNode[], edges: GraphEdge[]): GraphNode[] {
   const adj = new Map(nodes.map((n) => [n.id, [] as string[]]));
@@ -151,31 +174,53 @@ function bfsLevels(nodes: GraphNode[], edges: GraphEdge[]): GraphNode[][] {
   return levels;
 }
 
-const nodes_ = [
+const nodes_: GraphNode[] = [
   { id: "Halt", label: "Halting Problem" },
   { id: "UTMHalt", label: "Universal Turing Machine Halting Problem" },
-  // { id: "AP", label: "Acceptance Problem" },
-  // { id: "RT", label: "Rice's Theorem" },
+  { id: "BetaConv", label: "Beta Conversion" },
+  { id: "KAComm", label: "Commutative Kleene Algebra" },
+  { id: "KATermEq", label: "KA Term Equivalence" },
+  { id: "KATermEqBool", label: "Boolean KA Term Equivalence" },
+  { id: "LangEq", label: "Language Equivalence" },
+  { id: "LangEqBool", label: "Boolean Language Equivalence" },
+  { id: "ModelLe", label: "Model Inequality" },
+  { id: "ModelLeBool", label: "Boolean Model Inequality" },
+  { id: "TermEq", label: "Term Equivalence" },
+  { id: "TermEqBool", label: "Boolean Term Equivalence" },
   { id: "MPCP", label: "Modified Post's Correspondence Problem" },
   { id: "PCP", label: "Post's Correspondence Problem" },
+  { id: "SKIConv", label: "SKI Conversion" },
   { id: "MatMort", label: "3×3 Matrix Mortality" },
   { id: "AmbigCFG", label: "Ambiguity of CFGs" },
-  // { id: "CFLC", label: "CFL Containment" },
   { id: "EmpCFG", label: "Empty Intersection of CFGs" },
+  { id: "Rice", label: "Rice's Theorem" },
 ];
 
-const edges = [
+const edges: GraphEdge[] = [
   { id: "Halt-UTMHalt", source: "Halt", target: "UTMHalt" },
-  // { id: "AP-RT", source: "AP", target: "RT" },
+  { id: "Halt-BetaConv", source: "Halt", target: "BetaConv" },
+  // KAComm is only a hub: no arrow, and there is no Reductions folder to link to.
+  { id: "Halt-KAComm", source: "Halt", target: "KAComm", arrowPlacement: "none", link: false },
+  ...KA_CHILD_IDS.map((id) => ({ id: `KAComm-${id}`, source: "KAComm", target: id })),
   { id: "Halt-MPCP", source: "Halt", target: "MPCP" },
+  { id: "Halt-PCP", source: "Halt", target: "PCP" },
   { id: "MPCP-PCP", source: "MPCP", target: "PCP" },
+  { id: "Halt-SKIConv", source: "Halt", target: "SKIConv" },
   { id: "PCP-MatMort", source: "PCP", target: "MatMort" },
   { id: "PCP-AmbigCFG", source: "PCP", target: "AmbigCFG" },
-  // { id: "PCP-CFLC", source: "PCP", target: "CFLC" },
   { id: "PCP-EmpCFG", source: "PCP", target: "EmpCFG" },
+  { id: "Halt-Rice", source: "Halt", target: "Rice" },
 ];
 
+const isLinkEdge = (edge: { id?: string }) =>
+  edges.find((e) => e.id === edge?.id)?.link !== false;
+
 const NODE_DELAY = 300; // ms between each node appearing
+
+// KAComm hub: half the default node size (7) and the same colour as the edges.
+const KACOMM_SIZE = 1;
+const kacommFill = (dark: boolean) =>
+  (dark ? solarizedDarkTheme : solarizedLightTheme).edge.fill;
 
 export default function Graph({ dark = true }: { dark?: boolean }) {
   const nodes = bfsOrder(nodes_, edges);
@@ -247,7 +292,9 @@ export default function Graph({ dark = true }: { dark?: boolean }) {
     setIsHoveringNode(false);
     collapseNode(node);
   };
-  const handleEdgePointerOver = () => setIsHoveringEdge(true);
+  const handleEdgePointerOver = (edge: any) => {
+    if (isLinkEdge(edge)) setIsHoveringEdge(true);
+  };
   const handleEdgePointerOut = () => setIsHoveringEdge(false);
 
   // const handleNodeClick = (node: any) => {
@@ -266,12 +313,21 @@ export default function Graph({ dark = true }: { dark?: boolean }) {
   };
 
   const handleEdgeClick = (edge: any) => {
+    if (!isLinkEdge(edge)) return;
     window.open(reductionsUrl(edge.target), "_blank", "noopener,noreferrer");
   };
 
   const visibleNodes = levels.slice(0, visibleLevel).flat().map((n) => ({
     ...n,
     label: displayLabels[n.id] ?? n.id,
+    ...(n.id === "KAComm" ? {
+          // size: KACOMM_SIZE,
+          fill: kacommFill(dark)
+        } :
+          {
+          // size: 2*KACOMM_SIZE 
+        }
+       ),
   }));
   const visibleIds = new Set(visibleNodes.map((n) => n.id));
   const visibleEdges = edges.filter(
@@ -289,6 +345,7 @@ export default function Graph({ dark = true }: { dark?: boolean }) {
         theme={dark ? solarizedDarkTheme : solarizedLightTheme}
         labelFontUrl="/fonts/IosevkaCharonMono-Regular.ttf"
         ref={graphRef}
+        layoutType={"forceDirected2d"}
         onNodePointerOver={handlePointerOver}
         onNodePointerOut={handlePointerOut}
         onNodeClick={handleNodeClick}
@@ -324,4 +381,3 @@ export default function Graph({ dark = true }: { dark?: boolean }) {
 //     </div>
 //   );
 // }
-
