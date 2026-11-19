@@ -218,7 +218,7 @@ const isLinkEdge = (edge: { id?: string }) =>
 const NODE_DELAY = 300; // ms between each node appearing
 
 // KAComm hub: half the default node size (7) and the same colour as the edges.
-const KACOMM_SIZE = 1;
+// const KACOMM_SIZE = 1;
 const kacommFill = (dark: boolean) =>
   (dark ? solarizedDarkTheme : solarizedLightTheme).edge.fill;
 
